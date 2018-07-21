@@ -29,7 +29,7 @@ function tmplrender(tmplDATA, tmplID, destID)  {
   //simple split/join string templating
 
   //grab template code
-  var tmplHTML = document.getElementById(tmplID).innerHTML;
+  var tmplHTML = document.getElementById(tmplID).innerHTML || "";
 
   //grab destination node
   var destNode = destID ? document.getElementById(destID) : false;
