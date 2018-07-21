@@ -26,7 +26,7 @@ function NetWorthApp() {
 
 function tmplrender(tmplDATA, tmplID, destID)  {
 
-  //simple replace string templating
+  //simple split/join string templating
 
   //grab template code
   var tmplHTML = document.getElementById(tmplID).innerHTML;
