@@ -7,35 +7,45 @@ function NetWorthApp() {
 
   
   // application
-  var redLine =   [{x: 0, y: 170},{x: 88, y: 170},{x: 178, y: 149},{x: 201, y: 106},{x: 287, y: 83},{x: 331, y: 105},{x: 353, y: 172},{x: 400, y: 219}];
-  var greenLine = [{x: 0, y: 220},{x: 87, y: 130},{x: 154, y: 197},{x: 197, y: 195},{x: 220, y: 214},{x: 286, y: 215},{x: 332, y: 263},{x: 378, y: 241}, {x: 400, y: 242}];
-  var blueLine =  [{x: 0, y: 103},{x: 44, y: 103},{x: 154, y: 36},{x: 309, y: 150},{x: 376, y: 150},{x: 400, y: 171}];
-  var data = [
-      {name: 'Math', data: redLine},
-      {name: 'Economics', data: greenLine},
-      {name: 'History', data: blueLine}
-  ];
-
-  new Contour({
-          el: '.myFirstChart',
-          xAxis: {
-              title: 'Group Size',
-              type: 'linear'
-          },
-          yAxis: {
-              title: 'Test Score'
-          },
-          legend: {
-              vAlign: 'top',
-              hAlign: 'left'
-
-          }
-      })
-      .cartesian()
-      .line(data)
-      .legend(data)
-      .tooltip()
-      .render();
+var chart = new Chartist.Line('.ct-chart', {
+  series: [
+    {
+      name: 'series-1',
+      data: [
+        {x: new Date("1/1/2018"), y: 73},
+        {x: new Date("1/1/2019"), y: 20},
+        {x: new Date("1/1/2020"), y: 45},
+        {x: new Date("1/1/2021"), y: 40},
+        {x: new Date("1/1/2022"), y: 20},
+        {x: new Date("1/1/2023"), y: 32},
+        {x: new Date("1/1/2024"), y: 18},
+        {x: new Date("1/1/2025"), y: 11}
+      ]
+    },
+    {
+      name: 'series-2',
+      data: [
+        {x: new Date("1/1/2018"), y: 53},
+        {x: new Date("1/1/2019"), y: 40},
+        {x: new Date("1/1/2020"), y: 45},        
+        {x: new Date("1/1/2021"), y: 53},
+        {x: new Date("1/1/2022"), y: 35},
+        {x: new Date("1/1/2023"), y: 30},
+        {x: new Date("1/1/2024"), y: 30},
+        {x: new Date("1/1/2025"), y: 10}
+      ]
+    }
+  ]
+}, {
+  showPoint: false,
+  axisX: {
+    type: Chartist.FixedScaleAxis,
+    divisor: 8,
+    labelInterpolationFnc: function(value) {
+      return moment(value).format('YYYY');
+    }
+  }
+});
 
 }
   
