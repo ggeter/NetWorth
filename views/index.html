@@ -10,23 +10,26 @@
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/contour.css">
     
     <!-- import the webpage's client-side javascript file -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@3.10.1/index.min.js"></script>
+    <script src="/contour.js"></script>
+    <script src="/contour-connectors.js"></script>
     <script src="/client.js" defer></script>
   </head>
   <body>
  
-    <h1>Welcome!</h1>
+    <h1>Visual Net Worth</h1>
 
-    <div id="TESTTMPLDEST">Pre-test -- is this is still here, test failed.</div>
+    <div class="myFirstChart" style="width:80%; height:300px;"></div>
+    
 
     <!-- Template TEST Code -->
     <script id="tmpl_TEST" type="text/tmplrender">
       /*
-        <div 
-          id='{{DIVID}}'
-          class='{{DIVCLASS}}' 
-          >
+        <div id="{{DIVID}}" class="{{DIVCLASS}}">
           This ID = {{DIVID}} : This Class = {{DIVCLASS}}
         </div>
 
@@ -34,9 +37,13 @@
     </script>
     <script src="client.js" language="javascript"></script>
     <script lang="javascript">
-      NetWorthApp();
+      DOMReady(function () {
+        NetWorthApp();
+        }
+      );
 
-      tmplrender({DIVID:"testID", DIVCLASS:"divClass"}, "tmpl_TEST", "TESTTMPLDEST")
+      var tmplCode = tmplrender({DIVID:"testID", DIVCLASS:"divClass"}, "tmpl_TEST", false);
+      console.log(tmplCode);
 
     </script>
   </body>
