@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Welcome to Glitch!</title>
+    <title>NetWorth Visual - Net Worth forecasting with scenarios.</title>
     <meta name="description" content="NetWorh - Visual net worth calculations with scenarios.">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link id="favicon" rel="icon" href="" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,5 +18,26 @@
  
     <h1>Welcome!</h1>
 
+    <div id="TESTTMPLDEST"></div>
+
+    <!-- Template TEST Code -->
+    <script id='tmpl_TEST' type='text/tmplrender'>
+      /*
+        <div 
+          id='{{DIVID}}' 
+          class='{{DIVCLASS}}' 
+          >
+          This ID = {{DIVID}} : This Class = {{DIVCLASS}}
+        </div>
+
+      */
+    </script>
+    <script src="../public/client.js" language="javascript"></script>
+    <script lang="javascript">
+      NetWorthApp();
+
+      tmplrender({DIVID:"testID", DIVCLASS:"divClass"}, "tmpl_TEST", "TESTTMPLDEST")
+
+    </script>
   </body>
 </html>
