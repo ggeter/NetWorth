@@ -5,6 +5,9 @@ function NetWorthApp() {
   console.log('NetWorth has started.');
   // variables, setup, shared functions
 
+  // kick off moment.js
+  moment().format();
+  
   
   // application
   var chart = new Chartist.Line('.ct-chart', {
@@ -59,6 +62,13 @@ function NetWorthApp() {
 
 }
   
+function runScenario() {
+  var scenarioText = document.getElementById("scenariotext").value;
+  console.log("Running scenario at " + moment().format("YYYY-MM-DD HH:MM") + "\n\n" + scenarioText);
+  var scenarioJSON = JSON.parse(scenarioText);
+  console.log(scenarioJSON);
+}
+
 function tmplrender(tmplDATA, tmplID, destID)  {
 
   //simple split/join string templating
