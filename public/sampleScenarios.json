@@ -27,11 +27,31 @@
     "Vanguard Savings": {
       "type": "asset",
       "value": 700000,
-      "startdate": "7/21/2018",
+      "valuestartdate": "7/21/2018",
       "annualgrowthrate": 7,
       "contributionamount": 1000,
       "contributionfrequency": "m",
       "contributionenddate": "12/31/2038"
+    },
+    "3526 Home": {
+      "type": "asset",
+      "value": 235000,
+      "valuestartdate": "7/21/2018",
+      "annualgrowthrate": 5,
+      "mortgages": {
+        "Primary": {
+          "currentvalue": 220000,
+          "loanvalue": 230000,
+          "loanstartdate": "4/1/2017",
+          "loantermmonths": 180,
+          "rate": 4.5,
+          "monthlypayment": 1800,
+          "additionalpayments": [
+            ["7/21/2018","12/31/2019",250,"m"],
+            ["7/21/2018","",10000,"o"]
+          ]
+        }
+      }
     },
     "Dow Salary" : {
       "type": "income",
@@ -60,8 +80,7 @@
           ]
         }
       }
-    }
-    
+    } 
   },
   "Scenario 2": {}
 }
