@@ -1,0 +1,91 @@
+{
+  "S001": {
+    "BASELINE":{
+      "yearstoretirement": 13,
+      "yearspastretirement": 30,
+      "currentage": 47
+    },
+    "Abacus Salary": {
+      "type": "income", 
+      "frequency": "w",
+      "amount": 3200, 
+      "startdate": "7/1/2017", 
+      "enddate": "7/2/2019",
+      "annualgrowthrate": 5, 
+      "effectivetaxrate": 25
+    },
+    "Food": {
+      "type": "expense",
+      "frequency": "m",
+      "amount": 500,
+      "startdate": "1/1/2018",
+      "enddate": "12/31/2038"
+    },
+    "Club Dues":{
+      "type": "expense",
+      "frequency": "m",
+      "amount": 100,
+      "startdate": "1/1/2018",
+      "enddate": "12/31/2038",
+      "ignoreinflation": true
+    },
+    "Vanguard Savings": {
+      "type": "asset",
+      "value": 700000,
+      "valuestartdate": "7/21/2018",
+      "annualgrowthrate": 7,
+      "contributionamount": 1000,
+      "contributionfrequency": "m",
+      "contributionenddate": "12/31/2038"
+    },
+    "3526 Home": {
+      "type": "asset",
+      "value": 235000,
+      "valuestartdate": "7/21/2018",
+      "annualgrowthrate": 5,
+      "mortgages": {
+        "Primary": {
+          "currentvalue": 220000,
+          "loanvalue": 230000,
+          "loanstartdate": "4/1/2017",
+          "loantermmonths": 180,
+          "rate": 4.5,
+          "monthlypayment": 1800,
+          "additionalpayments": [
+            ["7/21/2018","12/31/2019",250,"m"],
+            ["7/21/2018","",10000,"o"]
+          ]
+        }
+      }
+    },
+    "Dow Salary" : {
+      "type": "income",
+      "frequency": "m",
+      "amount": 7500,
+      "startdate": "7/21/2017",
+      "enddate": "12/31/2022",
+      "annualgrowthrate": 5,
+      "effectivetaxrate": 25,
+      "retirement": {
+        "Roth 401K": {
+          "value": 50000,
+          "startdate": "7/21/2018",
+          "contributionsarepretax": false,
+          "contributionplans": [
+            ["7/21/2018","12/31/2019",100,"m"],
+            ["1/1/2020","12/31/2022",600,"m"]
+          ]
+        },
+        "Traditional 401K": {
+          "value": 0,
+          "startdate": "7/21/2018",
+          "contributionsarepretax": true,
+          "contributionplans": [
+            ["1/1/2020","12/31/2022",100,"m"]
+          ]
+        }
+      }
+    } 
+  },
+  "S002": {}
+}

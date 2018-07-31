@@ -10,22 +10,22 @@
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/contour.css">
     
     <!-- import the webpage's client-side javascript file -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@3.10.1/index.min.js"></script>
-    <script src="/contour.js"></script>
-    <script src="/contour-connectors.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/match-media@0.2.0/matchMedia.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
     <script src="/client.js" defer></script>
   </head>
   <body>
  
     <h1>Visual Net Worth</h1>
 
-    <div class="myFirstChart" style="width:80%; height:300px;"></div>
+    <div class="ct-chart ct-major-twelfth" style="width:70%" id="mainchart"></div>
     
-
+    <input type="button" id="runscenario" value="Run Scenario" onclick="runScenario();">
+    
     <!-- Template TEST Code -->
     <script id="tmpl_TEST" type="text/tmplrender">
       /*

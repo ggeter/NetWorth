@@ -5,40 +5,80 @@ function NetWorthApp() {
   console.log('NetWorth has started.');
   // variables, setup, shared functions
 
+  // kick off moment.js
+  moment().format();
+  
   
   // application
-  var redLine =   [{x: 0, y: 170},{x: 88, y: 170},{x: 178, y: 149},{x: 201, y: 106},{x: 287, y: 83},{x: 331, y: 105},{x: 353, y: 172},{x: 400, y: 219}];
-  var greenLine = [{x: 0, y: 220},{x: 87, y: 130},{x: 154, y: 197},{x: 197, y: 195},{x: 220, y: 214},{x: 286, y: 215},{x: 332, y: 263},{x: 378, y: 241}, {x: 400, y: 242}];
-  var blueLine =  [{x: 0, y: 103},{x: 44, y: 103},{x: 154, y: 36},{x: 309, y: 150},{x: 376, y: 150},{x: 400, y: 171}];
-  var data = [
-      {name: 'Math', data: redLine},
-      {name: 'Economics', data: greenLine},
-      {name: 'History', data: blueLine}
-  ];
-
-  new Contour({
-          el: '.myFirstChart',
-          xAxis: {
-              title: 'Group Size',
-              type: 'linear'
-          },
-          yAxis: {
-              title: 'Test Score'
-          },
-          legend: {
-              vAlign: 'top',
-              hAlign: 'left'
-
-          }
-      })
-      .cartesian()
-      .line(data)
-      .legend(data)
-      .tooltip()
-      .render();
+  var chart = new Chartist.Line('.ct-chart', {
+    labels: ['1', '2', '3', '4', '5', '6', '7', '8'],
+    // Naming the series with the series object array notation
+    series: [{
+      name: 'series-1',
+      data: [5, 2, -4, 2, 0, -2, 5, -3]
+    }, {
+      name: 'series-2',
+      data: [4, 3, 5, 3, 1, 3, 6, 4]
+    }, {
+      name: 'series-3',
+      data: [2, 4, 3, 1, 4, 5, 3, 2]
+    }]
+  }, {
+    fullWidth: true,
+    // Within the series options you can use the series names
+    // to specify configuration that will only be used for the
+    // specific series.
+    series: {
+      'series-1': {
+        lineSmooth: Chartist.Interpolation.step()
+      },
+      'series-2': {
+        lineSmooth: Chartist.Interpolation.simple(),
+        showArea: true
+      },
+      'series-3': {
+        showPoint: false
+      }
+    }
+  }, [
+    // You can even use responsive configuration overrides to
+    // customize your series configuration even further!
+    ['screen and (max-width: 320px)', {
+      series: {
+        'series-1': {
+          lineSmooth: Chartist.Interpolation.none()
+        },
+        'series-2': {
+          lineSmooth: Chartist.Interpolation.none(),
+          showArea: false
+        },
+        'series-3': {
+          lineSmooth: Chartist.Interpolation.none(),
+          showPoint: true
+        }
+      }
+    }]
+  ]);
 
 }
   
+function runScenario() {
+  // grab scenario data and execute
+  getScenarios(function (sd) {
+    var sdata = sd;
+    console.log("Running scenario at " + moment().format("YYYY-MM-DD HH:MM"));
+    console.log(sdata);
+    
+    // compute time-series DR/CR per item
+    
+    var thisScenario = "S001";
+    
+    var yearsToAnalyze =  sdata[thisScenario].BASELINE.yearstoretirement +
+                          sdata[thisScenario].BASELINE.yearspastretirement;
+    console.log(yearsToAnalyze);
+  });
+}
+
 function tmplrender(tmplDATA, tmplID, destID)  {
 
   //simple split/join string templating
@@ -70,4 +110,28 @@ function DOMReady(fn) {
   } else {
     document.addEventListener('DOMContentLoaded', fn);
   }
+}
+
+function getScenarios(callback) {
+  var request = new XMLHttpRequest();
+  request.open('GET', 'sampleScenarios.json', true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var scenarioData = JSON.parse(request.responseText);
+    } else {
+      // We reached our target server, but it returned an error
+      scenarioData = false;
+    }
+    callback(scenarioData);
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+    callback(false);
+  };
+
+  request.send();
+  
 }
