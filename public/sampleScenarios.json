@@ -1,5 +1,10 @@
 {
-  "Scenario 1": {
+  "S001": {
+    "BASELINE":{
+      "yearstoretirement": 13,
+      "yearspastretirement": 30,
+      "currentage": 47
+    },
     "Abacus Salary": {
       "type": "income", 
       "frequency": "w",
@@ -82,5 +87,5 @@
       }
     } 
   },
-  "Scenario 2": {}
+  "S002": {}
 }

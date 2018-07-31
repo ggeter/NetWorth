@@ -63,10 +63,20 @@ function NetWorthApp() {
 }
   
 function runScenario() {
-  var scenarioText = document.getElementById("scenariotext").value;
-  console.log("Running scenario at " + moment().format("YYYY-MM-DD HH:MM") + "\n\n" + scenarioText);
-  var scenarioJSON = JSON.parse(scenarioText);
-  console.log(scenarioJSON);
+  // grab scenario data and execute
+  getScenarios(function (sd) {
+    var sdata = sd;
+    console.log("Running scenario at " + moment().format("YYYY-MM-DD HH:MM"));
+    console.log(sdata);
+    
+    // compute time-series DR/CR per item
+    
+    var thisScenario = "S001";
+    
+    var yearsToAnalyze =  sdata[thisScenario].BASELINE.yearstoretirement +
+                          sdata[thisScenario].BASELINE.yearspastretirement;
+    console.log(yearsToAnalyze);
+  });
 }
 
 function tmplrender(tmplDATA, tmplID, destID)  {
@@ -100,4 +110,28 @@ function DOMReady(fn) {
   } else {
     document.addEventListener('DOMContentLoaded', fn);
   }
+}
+
+function getScenarios(callback) {
+  var request = new XMLHttpRequest();
+  request.open('GET', 'sampleScenarios.json', true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var scenarioData = JSON.parse(request.responseText);
+    } else {
+      // We reached our target server, but it returned an error
+      scenarioData = false;
+    }
+    callback(scenarioData);
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+    callback(false);
+  };
+
+  request.send();
+  
 }
