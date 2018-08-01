@@ -7,62 +7,34 @@ function NetWorthApp() {
 
   // kick off moment.js
   moment().format();
+
+}
+
+function doChart(labels) {
   
   
-  // application
-  var chart = new Chartist.Line('.ct-chart', {
-    labels: ['1', '2', '3', '4', '5', '6', '7', '8'],
-    // Naming the series with the series object array notation
-    series: [{
-      name: 'series-1',
-      data: [5, 2, -4, 2, 0, -2, 5, -3]
-    }, {
-      name: 'series-2',
-      data: [4, 3, 5, 3, 1, 3, 6, 4]
-    }, {
-      name: 'series-3',
-      data: [2, 4, 3, 1, 4, 5, 3, 2]
-    }]
+  new Chartist.Line('.ct-chart', {
+    labels: labels || [],
+    series: [
+      [12, 9, 7, 8, 5],
+      [2, 1, 3.5, 7, 3],
+      [1, 3, 4, 5, 6]
+    ]
   }, {
     fullWidth: true,
-    // Within the series options you can use the series names
-    // to specify configuration that will only be used for the
-    // specific series.
-    series: {
-      'series-1': {
-        lineSmooth: Chartist.Interpolation.step()
-      },
-      'series-2': {
-        lineSmooth: Chartist.Interpolation.simple(),
-        showArea: true
-      },
-      'series-3': {
-        showPoint: false
-      }
+    chartPadding: {
+      right: 40
     }
-  }, [
-    // You can even use responsive configuration overrides to
-    // customize your series configuration even further!
-    ['screen and (max-width: 320px)', {
-      series: {
-        'series-1': {
-          lineSmooth: Chartist.Interpolation.none()
-        },
-        'series-2': {
-          lineSmooth: Chartist.Interpolation.none(),
-          showArea: false
-        },
-        'series-3': {
-          lineSmooth: Chartist.Interpolation.none(),
-          showPoint: true
-        }
-      }
-    }]
-  ]);
+  });
 
 }
   
 function runScenario() {
+  
+  var rightNow = moment().toArray();
+  var startYear = rightNow[0];
+  var yrskip = 5;
+  
   // grab scenario data and execute
   getScenarios(function (sd) {
     var sdata = sd;
@@ -71,11 +43,38 @@ function runScenario() {
     
     // compute time-series DR/CR per item
     
-    var thisScenario = "S001";
+    var currentScenario = sdata["S001"];
     
-    var yearsToAnalyze =  sdata[thisScenario].BASELINE.yearstoretirement +
-                          sdata[thisScenario].BASELINE.yearspastretirement;
-    console.log(yearsToAnalyze);
+    var yearsToAnalyze =  currentScenario.BASELINE.yearstoretirement +
+                          currentScenario.BASELINE.yearspastretirement;
+    
+    var endYear = startYear + yearsToAnalyze;
+    
+    // make labels
+    var chartLabels = [];
+    console.log(startYear + " - " + endYear);
+    yrskip --;
+    for (var y = startYear; y <= endYear; y++) { // loop through analysis years
+      // labels: show first year, every five years, and last year
+      yrskip ++;
+      if(yrskip%5 == 0) { 
+        chartLabels.push(y); 
+      } else {
+        chartLabels.push("");
+      }
+      
+      // loop scenario items for each year pass
+      _.forEach(currentScenario, function (value, key) {
+        var itemName = key;
+        console.log(value.type);
+      });
+    }
+    
+    
+    
+    // display chart
+    console.log(chartLabels);
+    doChart(chartLabels);
   });
 }
 
