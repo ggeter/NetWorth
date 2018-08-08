@@ -9,25 +9,41 @@
       "type": "income", 
       "frequency": "w",
       "amount": 3200, 
-      "startdate": "7/1/2017", 
-      "enddate": "7/2/2019",
+      "startdate": [2017,7,1], 
+      "enddate": [2019,7,2],
       "annualgrowthrate": 5, 
       "effectivetaxrate": 25
     },
+    "Greg Salary B": {
+      "type": "income", 
+      "frequency": "w",
+      "amount": 1200, 
+      "startdate": [2019,8,1], 
+      "enddate": [2027,12,31],
+      "annualgrowthrate": 5, 
+      "effectivetaxrate": 25
+    },    
     "Food": {
       "type": "expense",
       "frequency": "m",
       "amount": 500,
-      "startdate": "1/1/2018",
-      "enddate": "12/31/2038"
+      "startdate": [2018,1,1],
+      "enddate": [2058,12,31]
     },
-    "Club Dues":{
+    "Vacations": {
+      "type": "expense",
+      "frequency": "y",
+      "amount": 7500,
+      "startdate": [2018,1,1],
+      "enddate": [2058,12,31]
+    },    
+    "Housing Expenses":{
       "type": "expense",
       "frequency": "m",
-      "amount": 100,
-      "startdate": "1/1/2018",
-      "enddate": "12/31/2038",
-      "ignoreinflation": true
+      "amount": 1000,
+      "startdate": [2018,1,1],
+      "enddate": [2058,12,31],
+      "ignoreinflation": false
     },
     "Vanguard Savings": {
       "type": "asset",
@@ -62,8 +78,8 @@
       "type": "income",
       "frequency": "m",
       "amount": 7500,
-      "startdate": "7/21/2017",
-      "enddate": "12/31/2022",
+      "startdate": [2017,7,21],
+      "enddate": [2027,12,31],
       "annualgrowthrate": 5,
       "effectivetaxrate": 25,
       "retirement": {
@@ -87,5 +103,20 @@
       }
     } 
   },
-  "S002": {}
+  "S002": {
+    "BASELINE":{
+      "yearstoretirement": 40,
+      "yearspastretirement": 30,
+      "currentage": 22
+    },
+    "Main Salary": {
+      "type": "income", 
+      "frequency": "m",
+      "amount": 5000, 
+      "startdate": [2018,7,1], 
+      "enddate": [2058,12,31],
+      "annualgrowthrate": 5, 
+      "effectivetaxrate": 25
+    }
+  }
 }
