@@ -8,7 +8,7 @@ function NetWorthApp() {
 
 }
 
-function doChart(labels, series) {
+function doChart(labels, series, seriesOptions) {
   
   new Chartist.Line('.ct-chart', {
     labels: labels || [],
@@ -37,11 +37,7 @@ function doChart(labels, series) {
       chartPadding: {
         right: 40
       },
-      series: {
-        'NetWorth': {
-          showLine: true,
-          showArea: false
-        }},    
+      series: seriesOptions || {},    
   });
 
 }
@@ -75,8 +71,12 @@ function runScenario() {
       }      
     }
     
-    // set up initial series to force a zero line
-    var seriesPlotArray = [{name: "zero", data: [0]}];
+    // set up initial series and force zero line
+    var seriesOptions = {};
+    _.set(seriesOptions, ['NetWorth', 'showLine'], true);
+    _.set(seriesOptions, ['NetWorth', 'showArea'], false);
+
+    var seriesPlotArray = [{name: "ZERO", data: [0]}];
     var seriesNWArray = [];
     
     // loop scenario items to do networth stacking
@@ -89,8 +89,8 @@ function runScenario() {
           var thisTaxPlotData = [];        
           var thisAccumulator = 0;
           var thisTaxAccumulator = 0;
-          var startMonth = getMonthNumber(value.startdate);
-          var endMonth = getMonthNumber(value.enddate);
+          var startMonth = getMonthNumber(value.startdate) || 1;
+          var endMonth = getMonthNumber(value.enddate) || monthsToAnalyze;
           var monthlyAmount = getMonthlyAmount(value.amount, value.frequency);
           var annualgrowthrate = 1 + ((value.annualgrowthrate) / 100 / 12) || 1;
           var effectivetaxrate = (value.effectivetaxrate) / 100 || 0;
@@ -126,13 +126,15 @@ function runScenario() {
           var thisNWData = [];
           var thisPlotData = [];
           var thisAccumulator = 0;
-          var startMonth = getMonthNumber(value.startdate);
-          var endMonth = getMonthNumber(value.enddate);
+          var startMonth = getMonthNumber(value.startdate) || 1;
+          var endMonth = getMonthNumber(value.enddate) || monthsToAnalyze;
           var monthlyAmount = getMonthlyAmount(value.amount, value.frequency);
+          var annualgrowthrate = 1 + ((value.annualgrowthrate) / 100 / 12) || 1;
           console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount)
         
           for (var m = 1; m <= monthsToAnalyze; m ++) {
             if (m >= startMonth && m <= endMonth) {
+                monthlyAmount *= annualgrowthrate
                 thisAccumulator += monthlyAmount;
                 thisNWData.push(monthlyAmount * -1);
                 thisPlotData.push(thisAccumulator * -1);
@@ -145,7 +147,53 @@ function runScenario() {
         
           seriesPlotArray.push({name: key, data: thisPlotData});
           seriesNWArray.push({name: key, data: thisNWData});
-          }       
+          }     
+        if (value.type == "savings") { //do savings type
+          var thisNWData = [];
+          var thisPlotData = [];
+          var thisAccumulator = 0;
+          var thisContributionNWData = [];
+          var thisContributionPlotData = [];
+          var thisContributionAccumulator = 0;          
+          var startMonth = getMonthNumber(value.startdate) || 1;
+          var endMonth = getMonthNumber(value.enddate) || monthsToAnalyze;
+          var monthlyAmount = getMonthlyAmount(value.amount, value.frequency);
+          var contributionannualgrowthrate = 1 + ((value.contributionannualgrowthrate) / 100 / 12) || 1;
+          var investmentannualgrowthrate = 1 + ((value.investmentannualgrowthrate) / 100 / 12) || 1;
+          var monthonevalue = value.monthonevalue || 0;
+          console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount)
+          
+          thisAccumulator = monthonevalue;
+          
+          for (var m = 1; m <= monthsToAnalyze; m ++) {
+            if (m == 1) { 
+              thisNWData.push(monthonevalue);
+              thisPlotData.push(thisAccumulator);
+            }
+            if (m > 1 && m >= startMonth && m <= endMonth) {
+                monthlyAmount *= contributionannualgrowthrate;
+                thisAccumulator += monthlyAmount;
+                thisAccumulator *= investmentannualgrowthrate;
+                thisNWData.push(monthlyAmount + monthonevalue);
+                thisPlotData.push(thisAccumulator + monthonevalue);
+                thisContributionNWData.push(monthlyAmount * -1);
+                thisContributionAccumulator += monthlyAmount;
+                thisContributionPlotData.push(thisContributionAccumulator * -1);
+            } else {
+                thisContributionNWData.push(0);
+                thisContributionPlotData.push(null);              
+            }
+
+          }
+        
+          seriesPlotArray.push({name: key, data: thisPlotData});
+          seriesNWArray.push({name: key, data: thisNWData});
+          seriesPlotArray.push({name: key + ' Contributions', data: thisContributionPlotData});
+          seriesNWArray.push({name: key + ' Contributions', data: thisContributionNWData});  
+          
+          _.set(seriesOptions, [key, 'showLine'], true);
+          _.set(seriesOptions, [key + ' Contributions', 'showLine'], true);
+          }           
     });  
     
     // add in Net Worth collected
@@ -171,7 +219,7 @@ function runScenario() {
     seriesPlotArray.push({name: "NetWorth", data: thisNetWorthData});
     
     // display chart
-    doChart(chartLabels, seriesPlotArray);
+    doChart(chartLabels, seriesPlotArray, seriesOptions);
   });
 }
 
@@ -199,6 +247,7 @@ function getMonthlyAmount(amt, freq) {
 
 
 function getMonthNumber(querydate){
+  if (!querydate) {return false;}
   var dateQueryDate = new Date(querydate);
   var rightNow = new Date();
   var msInMonth = 60 * 60 * 1000 * 24 * (365 / 12);

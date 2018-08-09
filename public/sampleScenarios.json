@@ -27,32 +27,31 @@
       "type": "expense",
       "frequency": "m",
       "amount": 500,
-      "startdate": [2018,1,1],
-      "enddate": [2058,12,31]
+      "annualgrowthrate": 2
     },
     "Vacations": {
       "type": "expense",
       "frequency": "y",
       "amount": 7500,
-      "startdate": [2018,1,1],
-      "enddate": [2058,12,31]
+      "annualgrowthrate": 2, 
+      "startdate": [2019,1,1]
     },    
     "Housing Expenses":{
       "type": "expense",
       "frequency": "m",
       "amount": 1000,
-      "startdate": [2018,1,1],
-      "enddate": [2058,12,31],
-      "ignoreinflation": false
+      "annualgrowthrate": 2
     },
     "Vanguard Savings": {
-      "type": "asset",
-      "value": 700000,
-      "valuestartdate": "7/21/2018",
-      "annualgrowthrate": 7,
-      "contributionamount": 1000,
-      "contributionfrequency": "m",
-      "contributionenddate": "12/31/2038"
+      "type": "savings",
+      "frequency": "m",
+      "amount": 1000,
+      "startdate": [2017,7,21],
+      "enddate": [2037,12,31],
+      "contributionannualgrowthrate": 2,
+      "investmentannualgrowthrate": 7,
+      "effectivetaxrate": 0,
+      "monthonevalue": 700000
     },
     "3526 Home": {
       "type": "asset",
