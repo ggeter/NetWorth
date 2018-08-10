@@ -27,7 +27,11 @@ function doChart(labels, series, seriesOptions) {
       fullWidth: true,
       axisX: {
         showLabel: true,
-        showGrid: false
+        showGrid: false,
+        labelInterpolationFnc: function(value) {
+          return value;
+        },
+        scaleMinSpace: 200         
       },
       axisY: {
         showLabel: true,
@@ -86,7 +90,7 @@ function runScenario() {
     // loop scenario items to do networth stacking
     _.forEach(currentScenario, function (value, key) {
       var itemName = key;
-      if (value.type == "income") { //do income type
+      if (value.type == "-income") { //do income type
           var thisNWData = [];
           var thisTaxNWData = [];
           var thisAccumulator = 0;
@@ -97,12 +101,13 @@ function runScenario() {
           var annualgrowthrate = 1 + ((value.annualgrowthrate) / 100 / 12) || 1;
           var effectivetaxrate = (value.effectivetaxrate) / 100 || 0;
           
-          console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount + " - tax rate= " + effectivetaxrate + " - growth= " + annualgrowthrate);
+          console.log("start m for " + key + ":" + startMonth + " end: " +endMonth+ " ;at monthly of " + monthlyAmount + " - tax rate= " + effectivetaxrate + " - growth= " + annualgrowthrate);
         
           for (var m = 1; m <= monthsToAnalyze; m ++) {
-            if (m >= startMonth && m <= endMonth) {
+            if (m >= startMonth && m < endMonth) {
                 monthlyAmount *= annualgrowthrate;
                 thisAccumulator += monthlyAmount;
+                console.log(thisAccumulator);
                 thisTaxAccumulator += (monthlyAmount * effectivetaxrate);
                 thisNWData.push(thisAccumulator);
                 thisTaxNWData.push(thisTaxAccumulator * -1);            
@@ -128,7 +133,7 @@ function runScenario() {
           console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount)
         
           for (var m = 1; m <= monthsToAnalyze; m ++) {
-            if (m >= startMonth && m <= endMonth) {
+            if (m >= startMonth && m < endMonth) {
                 monthlyAmount *= annualgrowthrate
                 thisAccumulator += monthlyAmount;
                 thisNWData.push(thisAccumulator * -1);
@@ -139,7 +144,7 @@ function runScenario() {
           }
           seriesNWArray.push({name: key, data: thisNWData});
           }     
-        if (value.type == "-savings") { //do savings type
+        if (value.type == "savings") { //do savings type
           var thisNWData = [];
           var thisAccumulator = 0;
           var thisContributionNWData = [];
@@ -158,7 +163,7 @@ function runScenario() {
             if (m == 1) { 
               thisNWData.push(thisAccumulator + monthlyAmount);
             } else {
-              if (m >= startMonth && m <= endMonth) {
+              if (m >= startMonth && m < endMonth) {
                   monthlyAmount *= contributionannualgrowthrate;
                   thisAccumulator += monthlyAmount;
                   thisAccumulator *= investmentannualgrowthrate;
@@ -187,16 +192,16 @@ function runScenario() {
     // add up all series' data
     _.forEach(seriesNWArray, function(value, key) {
       var m=0;
-      var thisNetWorthAccumulator = 0;
+      var prevV = 0;
       var thisSeriesData = [];
       _.forEach(value.data, function(v,k){
         m++;
-        thisNetWorthAccumulator += v || 0;
-        thisNetWorthData[m] += thisNetWorthAccumulator ;
+        thisSeriesData.push(v);
         if (v) {
-          thisSeriesData.push(thisNetWorthAccumulator);
+          thisNetWorthData[m] += v;
+          prevV = v || 0;
         } else {
-          thisSeriesData.push(null);
+          thisNetWorthData[m] += prevV;
         }
       });
       seriesPlotArray.push({name: value.name, data: thisSeriesData});
