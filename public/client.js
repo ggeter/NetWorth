@@ -90,7 +90,7 @@ function runScenario() {
     // loop scenario items to do networth stacking
     _.forEach(currentScenario, function (value, key) {
       var itemName = key;
-      if (value.type == "-income") { //do income type
+      if (value.type == "income") { //do income type
           var thisNWData = [];
           var thisTaxNWData = [];
           var thisAccumulator = 0;
@@ -107,7 +107,6 @@ function runScenario() {
             if (m >= startMonth && m < endMonth) {
                 monthlyAmount *= annualgrowthrate;
                 thisAccumulator += monthlyAmount;
-                console.log(thisAccumulator);
                 thisTaxAccumulator += (monthlyAmount * effectivetaxrate);
                 thisNWData.push(thisAccumulator);
                 thisTaxNWData.push(thisTaxAccumulator * -1);            
@@ -123,7 +122,7 @@ function runScenario() {
         
           } 
       
-      if (value.type == "-expense") { //do expense type
+      if (value.type == "expense") { //do expense type
           var thisNWData = [];
           var thisAccumulator = 0;
           var startMonth = getMonthNumber(value.startdate) || 1;
@@ -155,24 +154,21 @@ function runScenario() {
           var contributionannualgrowthrate = 1 + ((value.contributionannualgrowthrate) / 100 / 12) || 1;
           var investmentannualgrowthrate = 1 + ((value.investmentannualgrowthrate) / 100 / 12) || 1;
           var monthonevalue = value.monthonevalue || 0;
-          console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount + " - month one: " + monthonevalue + " CAGR:" + contributionannualgrowthrate)
+          console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount + " - month one: " + monthonevalue + " CAGR:" + contributionannualgrowthrate + " IAGR:" + investmentannualgrowthrate);
           
           thisAccumulator = monthonevalue;
+          thisNWData.push(thisAccumulator);
           
-          for (var m = 1; m <= monthsToAnalyze; m ++) {
-            if (m == 1) { 
-              thisNWData.push(thisAccumulator + monthlyAmount);
+          for (var m = 2; m <= monthsToAnalyze; m++) {
+            if (m >= startMonth && m < endMonth) {
+                monthlyAmount *= contributionannualgrowthrate;
+                thisAccumulator += monthlyAmount;
+                thisAccumulator *= investmentannualgrowthrate;
+                thisNWData.push(thisAccumulator);
+                thisContributionAccumulator += monthlyAmount;
+                thisContributionNWData.push(thisContributionAccumulator * -1);
             } else {
-              if (m >= startMonth && m < endMonth) {
-                  monthlyAmount *= contributionannualgrowthrate;
-                  thisAccumulator += monthlyAmount;
-                  thisAccumulator *= investmentannualgrowthrate;
-                  thisNWData.push(thisAccumulator);
-                  thisContributionAccumulator += monthlyAmount;
-                  thisContributionNWData.push(thisContributionAccumulator * -1);
-              } else {
-                  thisNWData.push(thisAccumulator *= investmentannualgrowthrate);     
-              }
+                thisNWData.push(thisAccumulator *= investmentannualgrowthrate);     
             }
           }
         

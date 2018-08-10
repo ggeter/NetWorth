@@ -2,7 +2,7 @@
   "S001": {
     "BASELINE":{
       "yearstoretirement": 13,
-      "yearspastretirement": 30,
+      "yearspastretirement": 20,
       "currentage": 47
     },
     "Abacus Salary": {
@@ -17,9 +17,9 @@
     "Greg Salary B": {
       "type": "income", 
       "frequency": "m",
-      "amount": 20833, 
-      "startdate": [2038,10,1], 
-      "enddate": [2040,9,30],
+      "amount": 1000, 
+      "startdate": [2017,10,1], 
+      "enddate": [2050,9,30],
       "annualgrowthrate": 5, 
       "effectivetaxrate": 25
     },    
@@ -43,16 +43,27 @@
       "annualgrowthrate": 2
     },
     "Vanguard Savings": {
-      "type": "savings",
+      "type": "-savings",
       "frequency": "m",
       "amount": 1000,
       "startdate": [2017,7,21],
-      "enddate": [2037,12,31],
-      "contributionannualgrowthrate": 0,
-      "investmentannualgrowthrate": 0,
+      "enddate": [2027,7,21],
+      "contributionannualgrowthrate": 2,
+      "investmentannualgrowthrate": 6,
       "effectivetaxrate": 0,
-      "monthonevalue": 700000
+      "monthonevalue": 800000
     },
+    "Simple Savings": {
+      "type": "savings",
+      "frequency": "m",
+      "amount": 100,
+      "startdate": [2017,7,21],
+      "enddate": [2027,7,21],
+      "contributionannualgrowthrate": 2,
+      "investmentannualgrowthrate": 6,
+      "effectivetaxrate": 0,
+      "monthonevalue": 5000
+    },    
     "3526 Home": {
       "type": "asset",
       "value": 235000,
