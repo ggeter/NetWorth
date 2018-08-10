@@ -6,7 +6,7 @@
       "currentage": 47
     },
     "Abacus Salary": {
-      "type": "income", 
+      "type": "-income", 
       "frequency": "w",
       "amount": 3200, 
       "startdate": [2017,7,1], 
@@ -16,12 +16,12 @@
     },
     "Greg Salary B": {
       "type": "income", 
-      "frequency": "w",
-      "amount": 1200, 
-      "startdate": [2019,8,1], 
-      "enddate": [2027,12,31],
-      "annualgrowthrate": 5, 
-      "effectivetaxrate": 25
+      "frequency": "m",
+      "amount": 20833, 
+      "startdate": [2035,1,1], 
+      "enddate": [2035,12,31],
+      "annualgrowthrate": 0, 
+      "effectivetaxrate": 0
     },    
     "Food": {
       "type": "expense",
@@ -45,7 +45,7 @@
     "Vanguard Savings": {
       "type": "savings",
       "frequency": "m",
-      "amount": 1000,
+      "amount": 0,
       "startdate": [2017,7,21],
       "enddate": [2037,12,31],
       "contributionannualgrowthrate": 2,
@@ -74,7 +74,7 @@
       }
     },
     "Dow Salary" : {
-      "type": "income",
+      "type": "-income",
       "frequency": "m",
       "amount": 7500,
       "startdate": [2017,7,21],

@@ -19,7 +19,7 @@ function doChart(labels, series, seriesOptions) {
       }
     ]
   }, {
-      width: '100%',
+      width: '90%',
       height: '90%',    
       showArea: true,
       showLine: false,
@@ -31,11 +31,7 @@ function doChart(labels, series, seriesOptions) {
       },
       axisY: {
         showLabel: true,
-        showGrid: true,
-        labelInterpolationFnc: function(value) {
-          return Math.round(value/1000,2);
-        },
-        scaleMinSpace: 15        
+        showGrid: true      
       },
       fullWidth: true,
       chartPadding: {
@@ -88,7 +84,9 @@ function runScenario() {
       var itemName = key;
       if (value.type == "income") { //do income type
           var thisNWData = [];
+          var thisPlotData = [];
           var thisTaxNWData = [];
+          var thisTaxPlotData = [];        
           var thisAccumulator = 0;
           var thisTaxAccumulator = 0;
           var startMonth = getMonthNumber(value.startdate) || 1;
@@ -101,25 +99,32 @@ function runScenario() {
         
           for (var m = 1; m <= monthsToAnalyze; m ++) {
             if (m >= startMonth && m <= endMonth) {
-                monthlyAmount *= annualgrowthrate;
+                monthlyAmount *= annualgrowthrate
                 thisAccumulator += monthlyAmount;
                 thisTaxAccumulator += (monthlyAmount * effectivetaxrate);
-                thisNWData.push(thisAccumulator);
-                thisTaxNWData.push(thisTaxAccumulator * -1);            
+                thisNWData.push(monthlyAmount);
+                thisPlotData.push(thisAccumulator);
+                thisTaxNWData.push(monthlyAmount * effectivetaxrate * -1);
+                thisTaxPlotData.push(thisTaxAccumulator * -1);              
             } else {
-                thisNWData.push(null);
-                thisTaxNWData.push(null);              
+                thisPlotData.push(null);
+                thisNWData.push(0);
+                thisTaxPlotData.push(null);
+                thisTaxNWData.push(0);              
             }
 
           }
         
+          seriesPlotArray.push({name: key, data: thisPlotData});
           seriesNWArray.push({name: key, data: thisNWData});
+          seriesPlotArray.push({name: key + ' Taxes', data: thisTaxPlotData});
           seriesNWArray.push({name: key + ' Taxes', data: thisTaxNWData});
         
           } 
       
-      if (value.type == "-expense") { //do expense type
+      if (value.type == "expense") { //do expense type
           var thisNWData = [];
+          var thisPlotData = [];
           var thisAccumulator = 0;
           var startMonth = getMonthNumber(value.startdate) || 1;
           var endMonth = getMonthNumber(value.enddate) || monthsToAnalyze;
@@ -131,18 +136,24 @@ function runScenario() {
             if (m >= startMonth && m <= endMonth) {
                 monthlyAmount *= annualgrowthrate
                 thisAccumulator += monthlyAmount;
-                thisNWData.push(thisAccumulator * -1);
+                thisNWData.push(monthlyAmount * -1);
+                thisPlotData.push(thisAccumulator * -1);
             } else {
-                thisNWData.push(null);
+                thisPlotData.push(null);
+                thisNWData.push(0);
             }
 
           }
+        
+          seriesPlotArray.push({name: key, data: thisPlotData});
           seriesNWArray.push({name: key, data: thisNWData});
           }     
-        if (value.type == "-savings") { //do savings type
+        if (value.type == "savings") { //do savings type
           var thisNWData = [];
+          var thisPlotData = [];
           var thisAccumulator = 0;
           var thisContributionNWData = [];
+          var thisContributionPlotData = [];
           var thisContributionAccumulator = 0;          
           var startMonth = getMonthNumber(value.startdate) || 1;
           var endMonth = getMonthNumber(value.enddate) || monthsToAnalyze;
@@ -150,30 +161,38 @@ function runScenario() {
           var contributionannualgrowthrate = 1 + ((value.contributionannualgrowthrate) / 100 / 12) || 1;
           var investmentannualgrowthrate = 1 + ((value.investmentannualgrowthrate) / 100 / 12) || 1;
           var monthonevalue = value.monthonevalue || 0;
-          console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount + " - month one: " + monthonevalue + " CAGR:" + contributionannualgrowthrate)
+          console.log("start m for " + key + ":" + startMonth + " at monthly of " + monthlyAmount)
           
           thisAccumulator = monthonevalue;
           
           for (var m = 1; m <= monthsToAnalyze; m ++) {
             if (m == 1) { 
-              thisNWData.push(thisAccumulator + monthlyAmount);
-            } else {
-              if (m >= startMonth && m <= endMonth) {
-                  monthlyAmount *= contributionannualgrowthrate;
-                  thisAccumulator += monthlyAmount;
-                  thisAccumulator *= investmentannualgrowthrate;
-                  thisNWData.push(thisAccumulator);
-                  thisContributionAccumulator += monthlyAmount;
-                  thisContributionNWData.push(thisContributionAccumulator * -1);
-              } else {
-                  thisNWData.push(thisAccumulator *= investmentannualgrowthrate);     
-              }
+              thisNWData.push(monthonevalue);
+              thisPlotData.push(thisAccumulator);
             }
+            if (m > 1 && m >= startMonth && m <= endMonth) {
+                monthlyAmount *= contributionannualgrowthrate;
+                thisAccumulator += monthlyAmount;
+                thisAccumulator *= investmentannualgrowthrate;
+                thisNWData.push(monthlyAmount + monthonevalue);
+                thisPlotData.push(thisAccumulator + monthonevalue);
+                thisContributionNWData.push(monthlyAmount * -1);
+                thisContributionAccumulator += monthlyAmount;
+                thisContributionPlotData.push(thisContributionAccumulator * -1);
+            } else {
+                thisContributionNWData.push(0);
+                thisContributionPlotData.push(null);              
+            }
+
           }
         
+          seriesPlotArray.push({name: key, data: thisPlotData});
           seriesNWArray.push({name: key, data: thisNWData});
+          seriesPlotArray.push({name: key + ' Contributions', data: thisContributionPlotData});
           seriesNWArray.push({name: key + ' Contributions', data: thisContributionNWData});  
           
+          _.set(seriesOptions, [key, 'showLine'], true);
+          _.set(seriesOptions, [key + ' Contributions', 'showLine'], true);
           }           
     });  
     
@@ -185,34 +204,24 @@ function runScenario() {
     }
 
     // add up all series' data
+    console.log(seriesNWArray);
     _.forEach(seriesNWArray, function(value, key) {
       var m=0;
-      var thisNetWorthAccumulator = 0;
-      var thisSeriesData = [];
+      var thisNWAccumulator = 0;
       _.forEach(value.data, function(v,k){
         m++;
-        thisNetWorthAccumulator += v || 0;
-        thisNetWorthData[m] += thisNetWorthAccumulator ;
-        if (v) {
-          thisSeriesData.push(thisNetWorthAccumulator);
-        } else {
-          thisSeriesData.push(null);
-        }
+        thisNWAccumulator += v;
+        thisNetWorthData[m] += thisNWAccumulator;
       });
-      seriesPlotArray.push({name: value.name, data: thisSeriesData});
-      _.set(seriesOptions, [value.name, 'showLine'], true);
-      _.set(seriesOptions, [value.name + ' Contributions', 'showLine'], true);      
     });
     
     // push NW array to its series
     seriesPlotArray.push({name: "NetWorth", data: thisNetWorthData});
-
+    
     // display chart
-    console.log(seriesPlotArray);
     doChart(chartLabels, seriesPlotArray, seriesOptions);
   });
 }
-
 
 function getMonthlyAmount(amt, freq) {
   if (amt == 0) { return amt; }
