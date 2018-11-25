@@ -2,42 +2,68 @@
   "S001": {
     "BASELINE":{
       "yearstoretirement": 13,
-      "yearspastretirement": 30,
+      "yearspastretirement": 20,
       "currentage": 47
     },
     "Abacus Salary": {
       "type": "income", 
       "frequency": "w",
       "amount": 3200, 
-      "startdate": "7/1/2017", 
-      "enddate": "7/2/2019",
+      "startdate": [2017,7,1], 
+      "enddate": [2019,7,2],
       "annualgrowthrate": 5, 
       "effectivetaxrate": 25
     },
+    "Greg Salary B": {
+      "type": "income", 
+      "frequency": "m",
+      "amount": 1000, 
+      "startdate": [2017,10,1], 
+      "enddate": [2050,9,30],
+      "annualgrowthrate": 5, 
+      "effectivetaxrate": 25
+    },    
     "Food": {
       "type": "expense",
       "frequency": "m",
       "amount": 500,
-      "startdate": "1/1/2018",
-      "enddate": "12/31/2038"
+      "annualgrowthrate": 2
     },
-    "Club Dues":{
+    "Vacations": {
+      "type": "expense",
+      "frequency": "y",
+      "amount": 7500,
+      "annualgrowthrate": 2, 
+      "startdate": [2019,1,1]
+    },    
+    "Housing Expenses":{
       "type": "expense",
       "frequency": "m",
-      "amount": 100,
-      "startdate": "1/1/2018",
-      "enddate": "12/31/2038",
-      "ignoreinflation": true
+      "amount": 1000,
+      "annualgrowthrate": 2
     },
     "Vanguard Savings": {
-      "type": "asset",
-      "value": 700000,
-      "valuestartdate": "7/21/2018",
-      "annualgrowthrate": 7,
-      "contributionamount": 1000,
-      "contributionfrequency": "m",
-      "contributionenddate": "12/31/2038"
+      "type": "-savings",
+      "frequency": "m",
+      "amount": 1000,
+      "startdate": [2017,7,21],
+      "enddate": [2027,7,21],
+      "contributionannualgrowthrate": 2,
+      "investmentannualgrowthrate": 6,
+      "effectivetaxrate": 0,
+      "monthonevalue": 800000
     },
+    "Simple Savings": {
+      "type": "savings",
+      "frequency": "m",
+      "amount": 100,
+      "startdate": [2017,7,21],
+      "enddate": [2027,7,21],
+      "contributionannualgrowthrate": 2,
+      "investmentannualgrowthrate": 6,
+      "effectivetaxrate": 0,
+      "monthonevalue": 5000
+    },    
     "3526 Home": {
       "type": "asset",
       "value": 235000,
@@ -62,8 +88,8 @@
       "type": "income",
       "frequency": "m",
       "amount": 7500,
-      "startdate": "7/21/2017",
-      "enddate": "12/31/2022",
+      "startdate": [2017,7,21],
+      "enddate": [2027,12,31],
       "annualgrowthrate": 5,
       "effectivetaxrate": 25,
       "retirement": {
@@ -87,5 +113,20 @@
       }
     } 
   },
-  "S002": {}
+  "S002": {
+    "BASELINE":{
+      "yearstoretirement": 40,
+      "yearspastretirement": 30,
+      "currentage": 22
+    },
+    "Main Salary": {
+      "type": "income", 
+      "frequency": "m",
+      "amount": 5000, 
+      "startdate": [2018,7,1], 
+      "enddate": [2058,12,31],
+      "annualgrowthrate": 5, 
+      "effectivetaxrate": 25
+    }
+  }
 }
