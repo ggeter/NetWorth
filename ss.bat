@@ -1,0 +1,1 @@
+static-server -p 3000 -i views/index.html

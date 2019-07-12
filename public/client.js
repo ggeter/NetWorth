@@ -2,10 +2,8 @@
 // Greg Geter, 2018 -- License: WTFPL
 
 function NetWorthApp() {
-  console.log('NetWorth has started.');
+  console.log('NetWorth has started. Thank you.');
   // variables, setup, shared functions
-
-
 }
 
 function doChart(labels, series, seriesOptions) {
@@ -57,12 +55,13 @@ function runScenario() {
   var yrskip = 5;
   
   // grab scenario data and execute
-  getScenarios(function (sd) {
+  var thisScenarioFile = 'public/sampleScenarios.json';
+  getScenarios(thisScenarioFile, function (sd) {
     var sdata = sd;    
     // compute time-series DR/CR per item
     
     var currentScenario = sdata["S002"];
-    
+    console.log(currentScenario);
     var yearsToAnalyze =  currentScenario.BASELINE.yearstoretirement +
                           currentScenario.BASELINE.yearspastretirement;
     
@@ -209,13 +208,21 @@ function runScenario() {
     seriesPlotArray.push({name: "NetWorth", data: thisNetWorthData});
 
     // display chart
-    console.log(seriesPlotArray);
+    console.log('Chart Labels:');
+    console.log(chartLabels);
+    console.log('Series Array:');
+    console.log(seriesPlotArray);    
+    console.log('Series Options:');
+    console.log(seriesOptions);    
     doChart(chartLabels, seriesPlotArray, seriesOptions);
+    doChartJS(chartLabels, seriesPlotArray);
   });
 }
 
 
 function getMonthlyAmount(amt, freq) {
+  // convert all amounts to monthly
+
   if (amt == 0) { return amt; }
   
   if (freq == "m") {
@@ -283,13 +290,15 @@ function DOMReady(fn) {
   }
 }
 
-function getScenarios(callback) {
+function getScenarios(scenarioFileName, callback) {
+  console.log('Attempting to load ' + scenarioFileName);
   var request = new XMLHttpRequest();
-  request.open('GET', 'public/sampleScenarios.json', true);
+  request.open('GET', scenarioFileName, true);
 
   request.onload = function() {
     if (request.status >= 200 && request.status < 400) {
       // Success!
+      console.log('Successful scenario load: ' + scenarioFileName);
       var scenarioData = JSON.parse(request.responseText);
     } else {
       // We reached our target server, but it returned an error
@@ -308,92 +317,81 @@ function getScenarios(callback) {
 }
 
 function randomScalingFactor() {
-  return parseInt( Math.random() * 100);
+  return parseInt( Math.random() * 100) + -50;
 }
 
-var config = {
-  type: 'line',
-  data: {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: 'Unfilled',
-      fill: false,
-      backgroundColor: window.chartColors.blue,
-      borderColor: window.chartColors.blue,
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ],
-    }, {
-      label: 'Dashed',
-      fill: false,
-      backgroundColor: window.chartColors.green,
-      borderColor: window.chartColors.green,
-      borderDash: [5, 5],
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ],
-    }, {
-      label: 'Filled',
-      backgroundColor: window.chartColors.red,
-      borderColor: window.chartColors.red,
-      data: [
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor(),
-        randomScalingFactor()
-      ],
-      fill: true,
-    }]
-  },
-  options: {
-    responsive: true,
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false,
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      xAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'Month'
-        }
-      }],
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'Value'
-        }
-      }]
-    }
-  }
-};
+function doChartJS(chartLabels, seriesPlotArray) {
 
-window.onload = function() {
+  var zeroData = _.fill(Array(chartLabels.length), 0);
+  console.log("ZeroData:");
+  console.log(zeroData);
+  var config = {
+    type: 'line',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: 'Zero',
+        fill: false,
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
+        data: zeroData,
+      }, {
+        label: seriesPlotArray[1].name,
+        fill: false,
+        backgroundColor: window.chartColors.green,
+        borderColor: window.chartColors.green,
+        borderDash: [5, 5],
+        data: seriesPlotArray[1].data,
+      }, {
+        label: 'Filled',
+        backgroundColor: window.chartColors.red,
+        borderColor: window.chartColors.red,
+        data: [
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor()
+        ],
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      },
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Month'
+          }
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Dollars'
+          }
+        }]
+      }
+    }
+  };
+
   var ctx = document.getElementById('chartcanvas').getContext('2d');
   window.myLine = new Chart(ctx, config);
-};
+}
+
