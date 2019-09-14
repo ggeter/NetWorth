@@ -355,7 +355,7 @@ function doChartJS(chartLabels, seriesPlotArray) {
           randomScalingFactor(),
           randomScalingFactor()
         ],
-        fill: true,
+        fill: true
       }]
     },
     options: {
