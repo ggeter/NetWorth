@@ -1,28 +1,28 @@
 {
   "S001": {
-    "BASELINE":{
+    "BASELINE": {
       "yearstoretirement": 13,
       "yearspastretirement": 20,
       "currentage": 47
     },
     "Abacus Salary": {
-      "type": "income", 
+      "type": "income",
       "frequency": "w",
-      "amount": 3200, 
-      "startdate": [2017,7,1], 
-      "enddate": [2019,7,2],
-      "annualgrowthrate": 5, 
+      "amount": 3200,
+      "startdate": [2017, 7, 1],
+      "enddate": [2019, 7, 2],
+      "annualgrowthrate": 5,
       "effectivetaxrate": 25
     },
     "Greg Salary B": {
-      "type": "income", 
+      "type": "income",
       "frequency": "m",
-      "amount": 1000, 
-      "startdate": [2017,10,1], 
-      "enddate": [2050,9,30],
-      "annualgrowthrate": 5, 
+      "amount": 1000,
+      "startdate": [2017, 10, 1],
+      "enddate": [2050, 9, 30],
+      "annualgrowthrate": 5,
       "effectivetaxrate": 25
-    },    
+    },
     "Food": {
       "type": "expense",
       "frequency": "m",
@@ -33,10 +33,10 @@
       "type": "expense",
       "frequency": "y",
       "amount": 7500,
-      "annualgrowthrate": 2, 
-      "startdate": [2019,1,1]
-    },    
-    "Housing Expenses":{
+      "annualgrowthrate": 2,
+      "startdate": [2019, 1, 1]
+    },
+    "Housing Expenses": {
       "type": "expense",
       "frequency": "m",
       "amount": 1000,
@@ -46,8 +46,8 @@
       "type": "-savings",
       "frequency": "m",
       "amount": 1000,
-      "startdate": [2017,7,21],
-      "enddate": [2027,7,21],
+      "startdate": [2017, 7, 21],
+      "enddate": [2027, 7, 21],
       "contributionannualgrowthrate": 2,
       "investmentannualgrowthrate": 6,
       "effectivetaxrate": 0,
@@ -57,13 +57,13 @@
       "type": "savings",
       "frequency": "m",
       "amount": 100,
-      "startdate": [2017,7,21],
-      "enddate": [2027,7,21],
+      "startdate": [2017, 7, 21],
+      "enddate": [2027, 7, 21],
       "contributionannualgrowthrate": 2,
       "investmentannualgrowthrate": 6,
       "effectivetaxrate": 0,
       "monthonevalue": 5000
-    },    
+    },
     "3526 Home": {
       "type": "asset",
       "value": 235000,
@@ -78,18 +78,18 @@
           "rate": 4.5,
           "monthlypayment": 1800,
           "additionalpayments": [
-            ["7/21/2018","12/31/2019",250,"m"],
-            ["7/21/2018","",10000,"o"]
+            ["7/21/2018", "12/31/2019", 250, "m"],
+            ["7/21/2018", "", 10000, "o"]
           ]
         }
       }
     },
-    "Dow Salary" : {
+    "Dow Salary": {
       "type": "income",
       "frequency": "m",
       "amount": 7500,
-      "startdate": [2017,7,21],
-      "enddate": [2027,12,31],
+      "startdate": [2017, 7, 21],
+      "enddate": [2027, 12, 31],
       "annualgrowthrate": 5,
       "effectivetaxrate": 25,
       "retirement": {
@@ -98,8 +98,8 @@
           "startdate": "7/21/2018",
           "contributionsarepretax": false,
           "contributionplans": [
-            ["7/21/2018","12/31/2019",100,"m"],
-            ["1/1/2020","12/31/2022",600,"m"]
+            ["7/21/2018", "12/31/2019", 100, "m"],
+            ["1/1/2020", "12/31/2022", 600, "m"]
           ]
         },
         "Traditional 401K": {
@@ -107,25 +107,25 @@
           "startdate": "7/21/2018",
           "contributionsarepretax": true,
           "contributionplans": [
-            ["1/1/2020","12/31/2022",100,"m"]
+            ["1/1/2020", "12/31/2022", 100, "m"]
           ]
         }
       }
-    } 
+    }
   },
   "S002": {
-    "BASELINE":{
+    "BASELINE": {
       "yearstoretirement": 40,
       "yearspastretirement": 30,
       "currentage": 22
     },
     "Main Salary": {
-      "type": "income", 
+      "type": "income",
       "frequency": "m",
-      "amount": 5000, 
-      "startdate": [2018,7,1], 
-      "enddate": [2058,12,31],
-      "annualgrowthrate": 5, 
+      "amount": 5000,
+      "startdate": [2018, 7, 1],
+      "enddate": [2058, 12, 31],
+      "annualgrowthrate": 5,
       "effectivetaxrate": 25
     }
   }

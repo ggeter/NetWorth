@@ -1,67 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<title>NetWorth Visual - Net Worth forecasting with scenarios.</title>
+		<meta
+			name="description"
+			content="NetWorth - Visual net worth calculations with scenarios."
+		/>
+		<link id="favicon" rel="icon" href="" type="image/x-icon" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <title>NetWorth Visual - Net Worth forecasting with scenarios.</title>
-  <meta name="description" content="NetWorth - Visual net worth calculations with scenarios.">
-  <link id="favicon" rel="icon" href="" type="image/x-icon">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- import the webpage's stylesheet -->
+		<link rel="stylesheet" href="public/style.css" />
 
-  <!-- import the webpage's stylesheet -->
-  <link rel="stylesheet" href="public/style.css">
+		<!-- import the webpage's client-side javascript file -->
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
-  <!-- import the webpage's client-side javascript file -->
-  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/match-media@0.2.0/matchMedia.min.js"></script>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-  <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
-  <script src="public/chartjsutils.js"></script>
-  <script src="public/client.js"></script>
-</head>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
+		/>
+		<script
+			defer
+			src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+		></script>
+		<link
+			rel="stylesheet"
+			href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+		/>
+		<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+			integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"
+			integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="
+			crossorigin="anonymous"
+		></script>
+		<script src="public/chartjsutils.js"></script>
+		<script src="public/client.js"></script>
+	</head>
 
-<body>
+	<body>
+		<h1>Visual Net Worth</h1>
+		<div class="columns">
+			<div class="column"><button class="button">Button</button></div>
+			<div class="column">2</div>
+			<div class="column">3</div>
+			<div class="column">4</div>
+		</div>
+		<div
+			style="width:75%;"
+			class="ct-chart ct-golden-section"
+			id="mainchart"
+		></div>
+		<input
+			type="button"
+			id="runscenario"
+			value="Run Scenario"
+			onclick="runScenario();"
+		/>
+		<div style="width:75%;">
+			<div class="chartjs-size-monitor">
+				<div class="chartjs-size-monitor-expand">
+					<div class=""></div>
+				</div>
+				<div class="chartjs-size-monitor-shrink">
+					<div class=""></div>
+				</div>
+			</div>
+			<canvas
+				id="chartcanvas"
+				style="display: block; width: 997px; height: 498px;"
+				width="997"
+				height="498"
+				class="chartjs-render-monitor"
+			></canvas>
+		</div>
+		<!-- Template TEST Code -->
+		<script id="tmpl_TEST" type="text/tmplrender">
+			/*
+			    <div id="{{DIVID}}" class="{{DIVCLASS}}">
+			      This ID = {{DIVID}} : This Class = {{DIVCLASS}}
+			    </div>
 
-  <h1>Visual Net Worth</h1>
+			  */
+		</script>
 
-  <div style="width:75%;" class="ct-chart ct-golden-section" id="mainchart"></div>
-  <input type="button" id="runscenario" value="Run Scenario" onclick="runScenario();">
-  <div style="width:75%;">
-    <div class="chartjs-size-monitor">
-      <div class="chartjs-size-monitor-expand">
-        <div class=""></div>
-      </div>
-      <div class="chartjs-size-monitor-shrink">
-        <div class=""></div>
-      </div>
-    </div>
-    <canvas id="chartcanvas" style="display: block; width: 997px; height: 498px;" width="997" height="498"
-      class="chartjs-render-monitor"></canvas>
-  </div>
-  <!-- Template TEST Code -->
-  <script id="tmpl_TEST" type="text/tmplrender">
-    /*
-        <div id="{{DIVID}}" class="{{DIVCLASS}}">
-          This ID = {{DIVID}} : This Class = {{DIVCLASS}}
-        </div>
-
-      */
-    </script>
-
-  <script lang="javascript">
-    DOMReady(function () {
-      NetWorthApp();
-    });
-    console.log("Executing template test...");
-    var tmplCode = tmplrender({
-      DIVID: "testID",
-      DIVCLASS: "divClass"
-    }, "tmpl_TEST", false);
-    console.log(tmplCode);
-  </script>
-</body>
-
+		<script lang="javascript">
+			DOMReady(function () {
+			  NetWorthApp();
+			});
+			console.log("Executing template test...");
+			var tmplCode = tmplrender({
+			  DIVID: "testID",
+			  DIVCLASS: "divClass"
+			}, "tmpl_TEST", false);
+			console.log(tmplCode);
+		</script>
+	</body>
 </html>
