@@ -1,3 +1,6 @@
 {
-	"name": "NetWorth Studio"
+	"name": "NetWorth Studio",
+	"env": {
+		"FAUNA_DB_ADMIN_KEY_001": "fnADYrpf1LACCLuDcHJYcjxIRH4O56569MHJRTIp"
+	}
 }
