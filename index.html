@@ -12,19 +12,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<!-- import the webpage's stylesheet -->
-		<link rel="stylesheet" href="public/style.css" />
+		<link rel="stylesheet" href="css/style.css" />
 
 		<!-- import the webpage's client-side javascript file -->
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
-
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
-		/>
-		<script
-			defer
-			src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-		></script>
 		<link
 			rel="stylesheet"
 			href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
@@ -41,38 +32,13 @@
 			integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="
 			crossorigin="anonymous"
 		></script>
-		<script src="public/chartjsutils.js"></script>
-		<script src="public/client.js"></script>
+		<script src="js/chartjsutils.js"></script>
+		<script src="js/client.js"></script>
 	</head>
 
 	<body>
 		<h1>Visual Net Worth</h1>
-		<div class="columns">
-			<div class="column">1</div>
-			<div class="column"><button class="button">Button</button></div>
-			<div class="column">3</div>
-			<div class="column">4</div>
-		</div>
-		<div
-			style="width:75%;"
-			class="ct-chart ct-golden-section"
-			id="mainchart"
-		></div>
-		<input
-			type="button"
-			id="runscenario"
-			value="Run Scenario"
-			onclick="runScenario();"
-		/>
-		<div style="width:75%;">
-			<div class="chartjs-size-monitor">
-				<div class="chartjs-size-monitor-expand">
-					<div class=""></div>
-				</div>
-				<div class="chartjs-size-monitor-shrink">
-					<div class=""></div>
-				</div>
-			</div>
+		<div style="width:90%;">
 			<canvas
 				id="chartcanvas"
 				style="display: block; width: 997px; height: 498px;"
@@ -81,13 +47,18 @@
 				class="chartjs-render-monitor"
 			></canvas>
 		</div>
+		<input
+			type="button"
+			id="runscenario"
+			value="Run Scenario"
+			onclick="runScenario('S001');"
+		/>
+
 		<!-- Template TEST Code -->
 		<script id="tmpl_TEST" type="text/tmplrender">
 			/*
-			    <div id="{{DIVID}}" class="{{DIVCLASS}}">
-			      This ID = {{DIVID}} : This Class = {{DIVCLASS}}
-			    </div>
-
+			    <h1>{{VAR01}}</h1>
+				<p style='color: {{COLOR01}};'>{{VAR02}}</p>
 			  */
 		</script>
 
@@ -97,8 +68,9 @@
 			});
 			console.log("Executing template test...");
 			var tmplCode = tmplrender({
-			  DIVID: "testID",
-			  DIVCLASS: "divClass"
+			  VAR01: "The Template Test",
+			  VAR02: "Is very successful! (this should be green)",
+			  COLOR01: "green"
 			}, "tmpl_TEST", false);
 			console.log(tmplCode);
 		</script>

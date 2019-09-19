@@ -1,0 +1,21 @@
+{
+	"name": "networth-studio",
+	"version": "0.0.1",
+	"description": "NetWorth Studio Scenario Grapher",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ggeter/NetWorth.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ggeter/NetWorth/issues"
+	},
+	"homepage": "https://github.com/ggeter/NetWorth#readme",
+	"dependencies": {
+		"faunadb": "^2.8.1"
+	}
+}
