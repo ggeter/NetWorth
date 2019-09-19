@@ -29,6 +29,7 @@ function runScenario(sID) {
 
 		var endYear = startYear + yearsToAnalyze;
 		var monthsToAnalyze = yearsToAnalyze * 12;
+		console.log('TCL: runScenario -> monthsToAnalyze', monthsToAnalyze);
 
 		// make labels
 		var chartLabels = [];
@@ -96,14 +97,17 @@ function runScenario(sID) {
 						monthlyAmount *= annualgrowthrate;
 						thisAccumulator += monthlyAmount;
 						thisTaxAccumulator += monthlyAmount * effectivetaxrate;
-						thisNWData.push(thisAccumulator);
-						thisTaxNWData.push(thisTaxAccumulator * -1);
+						thisNWData.push(Math.round(thisAccumulator, 0));
+						thisTaxNWData.push(Math.round(thisTaxAccumulator * -1, 0));
 					} else {
 						thisNWData.push(null);
 						thisTaxNWData.push(null);
 					}
 				}
-				console.log('COLOR: ' + value.linecolor);
+
+				console.log('TCL: runScenario -> key', key);
+				console.log('TCL: runScenario -> thisNWData', thisNWData);
+
 				seriesNWArray.push({
 					name: key,
 					linecolor: value.linecolor,
@@ -137,11 +141,15 @@ function runScenario(sID) {
 					if (m >= startMonth && m < endMonth) {
 						monthlyAmount *= annualgrowthrate;
 						thisAccumulator += monthlyAmount;
-						thisNWData.push(thisAccumulator * -1);
+						thisNWData.push(Math.round(thisAccumulator * -1, 0));
 					} else {
 						thisNWData.push(null);
 					}
 				}
+
+				console.log('TCL: runScenario -> key', key);
+				console.log('TCL: runScenario -> thisNWData', thisNWData);
+
 				seriesNWArray.push({
 					name: key,
 					linecolor: value.linecolor,
@@ -185,13 +193,19 @@ function runScenario(sID) {
 						monthlyAmount *= contributionannualgrowthrate;
 						thisAccumulator += monthlyAmount;
 						thisAccumulator *= investmentannualgrowthrate;
-						thisNWData.push(thisAccumulator);
+						thisNWData.push(Math.round(thisAccumulator, 0));
 						thisContributionAccumulator += monthlyAmount;
-						thisContributionNWData.push(thisContributionAccumulator * -1);
+						thisContributionNWData.push(
+							Math.round(thisContributionAccumulator * -1, 0)
+						);
 					} else {
-						thisNWData.push((thisAccumulator *= investmentannualgrowthrate));
+						thisAccumulator *= investmentannualgrowthrate;
+						thisNWData.push(Math.round(thisAccumulator, 0));
 					}
 				}
+
+				console.log('TCL: runScenario -> key', key);
+				console.log('TCL: runScenario -> thisNWData', thisNWData);
 
 				seriesNWArray.push({
 					name: key,
